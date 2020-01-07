@@ -28,8 +28,9 @@ const [ personsState, setPersonsState ] = useState({
         { name:'Maria2', age:20 },
         { name: event.target.value, age:30 }
       ]
-  })
+    })
   }
+
 
   return (
     <div className="App ">
