@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
-const App  = props => {
-const [ personsState, setPersonsState ] = useState({
+class App extends Component {
+  state = {
     persons: [
       { name:'Maicon', age:32 },
       { name:'Maria', age:99 },
       { name:'Jose', age:9999 }
-    ]
-  })
+    ],
+    otherState: 'some other value',
+    showpersons: true
+  };
 
-  const swithNameHandler = (newName) =>  {
-    setPersonsState({
+  swithNameHandler = (newName) =>  {
+    this.setState({
         persons: [
           { name:  newName, age:10 },
           { name:'Maria2', age:20 },
@@ -20,38 +22,64 @@ const [ personsState, setPersonsState ] = useState({
         ]
     })
   }
-
-  const nameChangeHandler = (event) => {
-    setPersonsState({
-      persons: [
-        { name:  'Maicon', age:10 },
-        { name:'Maria2', age:20 },
-        { name: event.target.value, age:30 }
-      ]
+  nameChangehandler = (event) =>  {
+    this.setState({
+        persons: [
+          { name:  event.target.value, age:10 },
+          { name:'Maria2', age:20 },
+          { name:'jose3', age:30 }
+        ]
     })
   }
 
+   tooglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
+  }
 
-  return (
-    <div className="App ">
-      <button onClick={swithNameHandler}>click me ;)</button>
-        <Person   
-          name={personsState.persons[0].name} 
-          age={personsState.persons[0].age}
-          click={ () => swithNameHandler('Joseeeee')}>
-        </Person>
-        <Person 
-          name={personsState.persons[1].name} 
-          age={personsState.persons[1].age}
-          click={swithNameHandler.bind(this, 'MAX')}>
-        </Person>
-        <Person 
-          name={personsState.persons[2].name} 
-          age={personsState.persons[2].age}
-          changed={nameChangeHandler}>
-        </Person> 
-    </div>
-  );
+
+
+  render () {
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer' 
+    }
+    return (
+      <div className="App">
+        <h1>Hi, i'm react App</h1>
+        <p>This is really working!</p>
+          <button 
+            style={style}
+            onClick={this.tooglePersonsHandler}> 
+            click me!
+          </button> 
+
+        {
+          this.state.showpersons === true ?
+            <div>
+              <Person   
+                name={this.state.persons[0].name} 
+                age={this.state.persons[0].age}
+                changed={this.nameChangehandler}>
+              </Person>
+              <Person 
+                name={this.state.persons[1].name} 
+                age={this.state.persons[1].age}
+              changed={this.nameChangehandler}>
+              </Person>
+              <Person 
+                name={this.state.persons[2].name} 
+                age={this.state.persons[2].age}
+                changed={this.nameChangehandler}>
+              </Person> 
+            </div>  : null 
+        }
+      </div>
+    );
+  }
 }
 
 export default App;
