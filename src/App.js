@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import Person from "./Person/Person";
+import person from "./Person/Person";
 
 class App extends Component {
   state = {
@@ -11,16 +12,6 @@ class App extends Component {
     ],
     otherState: "some other value",
     showpersons: false
-  };
-
-  swithNameHandler = newName => {
-    this.setState({
-      persons: [
-        { name: newName, age: 10 },
-        { name: "Maria2", age: 20 },
-        { name: "jose3", age: 30 }
-      ]
-    });
   };
 
   nameChangehandler = event => {
@@ -38,6 +29,12 @@ class App extends Component {
     this.setState({ showPersons: !doesShow });
   };
 
+  deletePersonHandler = (personIndex) => {
+    const persons = this.state.persons;
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons})
+  }
+
   render() {
     const style = {
       backgroundColor: "white",
@@ -53,8 +50,8 @@ class App extends Component {
       persons = (
         <div>
           {
-            this.state.persons.map(person => {
-              return <Person name={person.name} age={person.age} changed={this.nameChangehandler}/>
+            this.state.persons.map((person, index) => {
+              return <Person name={person.name} age={person.age} click={() => this.deletePersonHandler(index)}/>
             })
           }
         </div>
